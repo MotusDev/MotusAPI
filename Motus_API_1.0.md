@@ -1,6 +1,6 @@
 # Motus API extensions #
 
-**Bird Studies Canada**
+**Bird Studies Canada**,
     1 April 2016
 
 Contents
