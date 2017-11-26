@@ -1,8 +1,8 @@
-# Motus API extensions \
-**Bird Studies Canada**\
-1 April 2016 #
+# Motus API extensions #
+# **Bird Studies Canada** #
+# 1 April 2016 #
 
-Contents {#contents .ContentsHeading}
+Contents
 ========
 
 Contents [1](#contents)

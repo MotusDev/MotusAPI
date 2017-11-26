@@ -1,6 +1,6 @@
-# Motus Version 2.0 API \
-**Paul Morril**\
-5 September 2017 #
+# Motus Version 2.0 API #
+# **Paul Morril** #
+# 5 September 2017 #
 
 
 Each request requires the single json={} parameter, with contents as
