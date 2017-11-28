@@ -170,7 +170,7 @@ Additional parameters:
  - **secretkey**: sensor hash key
  - **receiverType**: eg: LOTEKSRX800
  - **serno**: the receiver id (eg: `SG-1234BBBK678`, `Lotek-153`)
- - **hash**: Calculate the hex encoded sha1 hash as a sha1 has of  (serno + underscore + date + underscore + sharedMasterSecret)
+ - **hash**: Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret)
  
 
 ### 5.3 Register a project ###
