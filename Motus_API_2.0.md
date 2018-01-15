@@ -40,7 +40,25 @@ Additional Parameters: none
 e.g.
 
 ``` json
-
+{
+    "version":"2.0",
+    "data":[
+        {
+            "id":1,
+            "name":"Motus Ontario Array",
+            "code":"Motus",
+            "tagPermissions":2,
+            "sensorPermissions":2
+        },
+        {
+            "id":2,
+            "name":"Motus Atlantic Array",
+            "code":"MotusATL",
+            "tagPermissions":2,
+            "sensorPermissions":2
+        }
+    ]
+}
 ```
 
 ### 1.2 List projects with descriptions ###
