@@ -24,6 +24,25 @@ unauthenticated requests will not return private information.
 
 Additional Parameters: none
 
+ **Return**
+
+ JSON-formatted object with these fields:
+
+  - **version** string; version number, e.g. "2.0"
+  - **data** data; array of objects with these fields:
+    - **id**; integer; motus project ID
+    - **name**; string; descriptive name of project
+    - **code**; string; short project code, e.g. for plots
+    - **tagPermissions**; integer, 0..3; permission level for this user's access to tags from project
+    - **sensorPermissions**; integer, 0..3; permission level for this user's access to sensors from project
+
+    TODO: what do the permission levels represent?
+e.g.
+
+``` json
+
+```
+
 ### 1.2 List projects with descriptions ###
 
     /api/projects/descriptions
@@ -103,6 +122,34 @@ Additional parameters:
  - **qSearchMode**: set deployment period search mode (`startsBetween`|`overlap`)
  - **tsStart**: unix timestamp, start of deployment
  - **tsEnd**: unix timestamp, end of deployment
+
+Reply has these fields:
+ - tagID
+ - tagProjectID **this is called `projectID` in v 1.0**
+ - mfgID
+ - dateBin
+ - lifespan
+ - tagDeployID
+ - deploymentStatus
+ - dtStart
+ - dtEnd
+ - dtStartAnticipated
+ - tsStart
+ - tsEnd
+ - tsStartAnticipated
+ - deferSec
+ - speciesID
+ - speciesName
+ - motusScientificName
+ - motusEnglishName
+ - motusFrenchName
+ - bandNumber
+ - markerNumber
+ - markerType
+ - latitude
+ - longitude
+ - elevation
+ - comments
 
 ## 4. Miscellaneous Querying ##
 
