@@ -259,9 +259,12 @@ Additional parameters:
  - **secretkey**: sensor hash key
  - **receiverType**: eg: LOTEKSRX800
  - **serno**: the receiver id (eg: `SG-1234BBBK678`, `Lotek-153`)
+ - **userID**: the motus id of the user whose sensor is being processed
+ - **projectID**: the project id to which this sensor will be deployed
  - ~~**hash**: Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret)~~
      no longer used as of 2017 Dec 15 (beta server)
 
+Note that userID and projectID are not mandatory, but are highly encouraged!
 
 ### 5.3 Register a project ###
 
