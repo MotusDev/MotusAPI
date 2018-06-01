@@ -37,6 +37,7 @@ Additional Parameters: none
     - **sensorPermissions**; integer, 0..3; permission level for this user's access to sensors from project
 
     TODO: what do the permission levels represent?
+
 e.g.
 
 ``` json
@@ -92,6 +93,29 @@ Additional parameters:
  - **year**: filter by year deployment started
  - **serialNo**: filter by receiverID
  - **status**: filter by deployment status (0|1|2)
+
+Returned fields:
+
+ - id: integer; unknown motus ID #
+ - serno: string; receiver serial number; e.g. Lotek-123, SG-1234BBBK4321
+ - receiverType: string; SENSORGNOME, LOTEKSRX600, LOTEKSRX800, ...
+ - deviceID: integer; motus ID # for this device
+ - macAddress: string; not used
+ - status: string; "active", "terminated", ...?
+ - deployID: integer; ID for this deployment
+ - name: string; (short) name for this deployment, e.g. for labelling graphs
+ - fixtureType; string
+ - latitude; double; decimal degrees N
+ - longitude; double; decimal degrees E
+ - elevation; double; metres ASL
+ - isMobile; boolean
+ - tsStart; double; deployment start timestamp, in seconds since 1 Jan 1970 GMT
+ - antennas; list with one row per antenna and these fields:
+    - port; integer
+    - antennaType; string
+    - bearing; double; degrees clockwise from local magnetic north
+    - heightMeters; double; height of antenna mast above elevation quoted above
+    - cableLengthMeters; double; length of coax cable between antenna and radio
 
 ### 2.3 List Receiver Deployments (flat version: json or csv) ###
 
@@ -284,3 +308,7 @@ properties | No | n/a | JSON object containing pairs of name/value pairs for any
     /api/tag/undeploy
 
 See api version 1.0 documentation for parameters (deletetagdeployment)
+
+## Changelog ##
+
+2018-02-06 document `/api/receivers/sensordeployments`, which no longer returns projectID.
