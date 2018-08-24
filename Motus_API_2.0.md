@@ -85,7 +85,7 @@ Additional Parameters:
 This version includes JSON nested structures for individual antennas (csv is
 not supported)
 
-    /api/receivers/sensordeployments
+    /api/receiver/sensordeployments
 
 Additional parameters:
 
@@ -119,7 +119,7 @@ Returned fields:
 
 ### 2.3 List Receiver Deployments (flat version: json or csv) ###
 
-    /api/receivers/deployments
+    /api/receiver/deployments
 
 Additional parameters:
 
@@ -130,7 +130,7 @@ Additional parameters:
 
 ### 2.4 List Receiver Antennas ###
 
-    /api/receivers/antennas
+    /api/receiver/antennas
 
 Additional parameters:
 
@@ -314,4 +314,4 @@ See api version 1.0 documentation for parameters (deletetagdeployment)
 
 ## Changelog ##
 
-2018-02-06 document `/api/receivers/sensordeployments`, which no longer returns projectID.
+2018-02-06 document `/api/receiver/sensordeployments`, which no longer returns projectID.
