@@ -161,7 +161,7 @@ Additional parameters:
  - **projectID**: filter on project id
  - **status**: filter on deployment status (0|1|2)
  - **mfgID**: filter on manufacturer id
- - **qSearchMode**: set deployment period search mode (`startsBetween`|`overlap`)
+ - **searchMode**: set deployment period search mode (`startsBetween`|`overlap`)
  - **tsStart**: unix timestamp, start of deployment
  - **tsEnd**: unix timestamp, end of deployment
 
@@ -313,5 +313,7 @@ properties | No | n/a | JSON object containing pairs of name/value pairs for any
 See api version 1.0 documentation for parameters (deletetagdeployment)
 
 ## Changelog ##
+
+2018-08-24 correct parameter name and possible values for `/api/tags/search`
 
 2018-02-06 document `/api/receiver/sensordeployments`, which no longer returns projectID.
