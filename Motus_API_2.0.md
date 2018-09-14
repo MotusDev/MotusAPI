@@ -164,6 +164,9 @@ Additional parameters:
  - **searchMode**: set deployment period search mode (`startsBetween`|`overlap`)
  - **tsStart**: unix timestamp, start of deployment
  - **tsEnd**: unix timestamp, end of deployment
+ - **tsLastModified**: unix timestamp, threshold for change of metadata; if specified, the reply
+   only includes records for which metadata were changed at or after this time.  This is
+   intended to allow on-demand update of tag metadata records by the data processing server.
 
 Reply has these fields:
  - tagID
@@ -313,6 +316,8 @@ properties | No | n/a | JSON object containing pairs of name/value pairs for any
 See api version 1.0 documentation for parameters (deletetagdeployment)
 
 ## Changelog ##
+
+2018-09-14 add `tsLastModified` parameter to `api/tags/search`
 
 2018-08-24 correct parameter name and possible values for `/api/tags/search`
 
