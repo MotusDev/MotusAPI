@@ -13,6 +13,12 @@ Common Parameters:
  - **pword**: optional unless authentication required on call
  - **fmt**: optional, defaults to `json`
 
+When returning JSON ("fmt":"json" or "fmt":"jsonp"), returns a JSON object with:
+ - **version**: string, the API version number, e.g. "2.0"
+ - **data**: an array of objects
+
+When returning CSV ("fmt":"csv"), returns a CSV with the same column names as the properties of the JSON objects in the **data** array, except *all columns with non-atomic values are dropped*. Note that errors are always returned as JSON, no matter what format is specified.
+
 Authentication is normally not required (exceptions below), but
 unauthenticated requests will not return private information.
 
@@ -59,17 +65,13 @@ unauthenticated requests will not return private information.
 
  **Returns:**
 
- JSON-formatted object with these fields:
+  - **id**: integer; motus project ID
+  - **name**: string; descriptive name of project
+  - **code**: string; short project code, e.g. for plots
+  - **tagPermissions**: integer, 0..3; permission level for tag registration (low # means restricted, high # means permissive)
+  - **sensorPermissions**: integer, 0..3; permission level for receiver registration (low # means restricted, high # means permissive)
 
-  - **version**: string; version number, e.g. "2.0"
-  - **data**: array of objects with these fields:
-    - **id**: integer; motus project ID
-    - **name**: string; descriptive name of project
-    - **code**: string; short project code, e.g. for plots
-    - **tagPermissions**: integer, 0..3; permission level for tag registration (low # means restricted, high # means permissive)
-    - **sensorPermissions**: integer, 0..3; permission level for receiver registration (low # means restricted, high # means permissive)
-
-e.g.
+Example:
 
 ``` json
 {
@@ -109,17 +111,13 @@ e.g.
 
 **Returns:**
 
- JSON-formatted object with these fields:
+ - **projectID**: integer, motus project ID
+ - **projectName**: string, descriptive name of project
+ - **projectCode**: string, short project code, e.g. for plots
+ - **descriptionShort**: string, short summary of the project (a few sentences)
+ - **descriptionLong**: string, long summary of the project (a few paragraphs)
 
-  - **version** string; version number, e.g. "2.0"
-  - **data** data; array of objects with these fields:
-    - **projectID**; integer; motus project ID
-    - **projectName**; string; descriptive name of project
-    - **projectCode**; string; short project code, e.g. for plots
-    - **descriptionShort**; string; short summary of the project (a few sentences)
-    - **descriptionLong**; string; long summary of the project (a few paragraphs)
-
-e.g.
+Example:
 
 ``` json
 {
@@ -163,20 +161,16 @@ e.g.
 
 **Returns:**
 
- JSON-formatted object with these fields:
+ - **receiverID**: string, receiver serial number
+ - **motusRecvID**: integer
+ - **deviceID**: integer
+ - **macAddress**: string (currently always "0")
+ - **receiverType**: string
+ - **dtStart**: string, most recent deployment start date/time
+ - **deploymentStatus**: string
+ - **deploymentName**: string
 
-  - **version**: string, version number, e.g. "2.0"
-  - **data**: array of objects with these fields:
-    - **receiverID**: string, receiver serial number
-    - **motusRecvID**: integer
-    - **deviceID**: integer
-    - **macAddress**: string (currently always "0")
-    - **receiverType**: string
-    - **dtStart**: string, most recent deployment start date/time
-    - **deploymentStatus**: string
-    - **deploymentName**: string
-
-e.g.
+Example:
 
 ``` json
 {
@@ -231,31 +225,27 @@ This version includes JSON nested structures for individual antennas.
 
 **Returns:**
 
- JSON-formatted object with these fields:
-
-  - **version**: string, version number, e.g. "2.0"
-  - **data**: array of objects with these fields:
-    - **id**: integer, Motus receiver ID
-    - **serno**: string, receiver serial number, e.g. Lotek-123, SG-1234BBBK4321
-    - **receiverType**: string, e.g. SENSORGNOME, LOTEKSRX600, LOTEKSRX800, etc.
-    - **deviceID**: integer, Motus ID # for this device
-    - **macAddress**: string, not used
-    - **status**: string, "active", "terminated", or "pending"
-    - **deployID**: integer, Motus ID for this deployment
-    - **name**: string, (short) name for this deployment, e.g. for labelling graphs
-    - **fixtureType**: string
-    - **latitude**: double, decimal degrees N
-    - **longitude**: double, decimal degrees E
-    - **elevation**: double, metres ASL
-    - **isMobile**: boolean
-    - **tsStart**: double, deployment start timestamp, in seconds since 1st Jan. 1970 UTC
-    - **tsEnd**: double, deployment finish timestamp, in seconds since 1st Jan. 1970 UTC
-    - **antennas**: array of objects with these fields:
-      - **port**: integer
-      - **antennaType**: string
-      - **bearing**: double, degrees clockwise from local magnetic north
-      - **heightMeters**: double, height of antenna mast above elevation quoted above
-      - **cableLengthMeters** double; length of coax cable between antenna and radio
+ - **id**: integer, Motus receiver ID
+ - **serno**: string, receiver serial number, e.g. Lotek-123, SG-1234BBBK4321
+ - **receiverType**: string, e.g. SENSORGNOME, LOTEKSRX600, LOTEKSRX800, etc.
+ - **deviceID**: integer, Motus ID # for this device
+ - **macAddress**: string, not used
+ - **status**: string, "active", "terminated", or "pending"
+ - **deployID**: integer, Motus ID for this deployment
+ - **name**: string, (short) name for this deployment, e.g. for labelling graphs
+ - **fixtureType**: string
+ - **latitude**: double, decimal degrees N
+ - **longitude**: double, decimal degrees E
+ - **elevation**: double, metres ASL
+ - **isMobile**: boolean
+ - **tsStart**: double, deployment start timestamp, in seconds since 1st Jan. 1970 UTC
+ - **tsEnd**: double, deployment finish timestamp, in seconds since 1st Jan. 1970 UTC
+ - **antennas**: array of objects with these fields:
+   - **port**: integer
+   - **antennaType**: string
+   - **bearing**: double, degrees clockwise from local magnetic north
+   - **heightMeters**: double, height of antenna mast above elevation quoted above
+   - **cableLengthMeters** double; length of coax cable between antenna and radio
 
 Example:
 
@@ -334,28 +324,24 @@ Additional parameters:
 
 **Returns:**
 
- JSON-formatted object with these fields:
-
-  - **version**: string, version number, e.g. "2.0"
-  - **data**: array of objects with these fields:
-    - **motusRecvID**: integer
-    - **recvProjectID**: integer
-    - **receiverID**: string
-    - **receiverType**: string
-    - **recvDeployID**: integer
-    - **deploymentStatus**: string
-    - **deploymentName**: string
-    - **siteName**: string
-    - **dtStart**: string
-    - **dtEnd**: string
-    - **tsStart**: double
-    - **tsEnd**: double
-    - **latitude**: double
-    - **longitude**: double
-    - **elevation**: double
-    - **isMobile**: boolean
-    - **macAdress**: string
-    - **locationPrecision**: string
+ - **motusRecvID**: integer
+ - **recvProjectID**: integer
+ - **receiverID**: string
+ - **receiverType**: string
+ - **recvDeployID**: integer
+ - **deploymentStatus**: string
+ - **deploymentName**: string
+ - **siteName**: string
+ - **dtStart**: string
+ - **dtEnd**: string
+ - **tsStart**: double
+ - **tsEnd**: double
+ - **latitude**: double
+ - **longitude**: double
+ - **elevation**: double
+ - **isMobile**: boolean
+ - **macAdress**: string
+ - **locationPrecision**: string
 
 Example:
 
