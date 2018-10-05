@@ -24,7 +24,7 @@ unauthenticated requests will not return private information.
 | [2. Querying Receivers](#2-querying-receivers) |
 | [2.1 List receivers](#21-list-receivers) |
 | [2.2 List Receiver Deployments (nested version)](#22-list-receiver-deployments-nested-version) |
-| [2.3 List Receiver Deployments (flat version: json or csv)](#23-list-receiver-deployments-flat-version-json-or-csv) |
+| [2.3 List Receiver Deployments (flat version)](#23-list-receiver-deployments-flat-version) |
 | [2.4 List Receiver Antennas](#24-list-receiver-antennas) |
 | [3. Querying Tags](#3-querying-tags) |
 | [3.1 List Tags](#31-list-tags) |
@@ -210,7 +210,7 @@ e.g.
 
 ### 2.2 List Receiver Deployments (nested version) ###
 
-    /api/receiver/sensordeployments
+    /api/receivers/sensordeployments
 (aliases: /api/recv/sensordeployments, /api/receiver/sensordeployments)
 
 This version includes JSON nested structures for individual antennas.
@@ -306,9 +306,10 @@ Example:
 }
 ```
 
-### 2.3 List Receiver Deployments (flat version: json or csv) ###
+### 2.3 List Receiver Deployments (flat version) ###
 
-    /api/receiver/deployments
+    /api/receivers/deployments
+(aliases: /api/receivers/template, /api/receiver/deployments, /api/receiver/template, /api/recv/deployments, /api/recv/template)
 
 Additional parameters:
 
@@ -316,6 +317,75 @@ Additional parameters:
  - **year**: filter by year deployment started
  - **serialNo**: filter by receiverID
  - **status**: filter by deployment status (0|1|2)
+
+**Parameters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **login** | Optional | String | Some receiver information is only visible to authenticated users. |
+| **pword** | Optional | String |  |
+| **projectID** | Optional | Integer | Only return receiver deployments from the given project (and users authorized with the project may be able to see more than is visible to third parties) |
+| **year** | Optional | Integer | Only return deployments which started during the given year. |
+| **serialNo** | Optional | String | Only return deployments of the receiver with the given serial number. |
+| **mac** | Optional | String | Only return deployments of the receiver with the given MAC address. |
+| **status** | Optional | Integer | Only return deployments with the same status code (0, 1, 2). |
+
+**Returns:**
+
+ JSON-formatted object with these fields:
+
+  - **version**: string, version number, e.g. "2.0"
+  - **data**: array of objects with these fields:
+    - **motusRecvID**: integer
+    - **recvProjectID**: integer
+    - **receiverID**: string
+    - **receiverType**: string
+    - **recvDeployID**: integer
+    - **deploymentStatus**: string
+    - **deploymentName**: string
+    - **siteName**: string
+    - **dtStart**: string
+    - **dtEnd**: string
+    - **tsStart**: double
+    - **tsEnd**: double
+    - **latitude**: double
+    - **longitude**: double
+    - **elevation**: double
+    - **isMobile**: boolean
+    - **macAdress**: string
+    - **locationPrecision**: string
+
+Example:
+
+``` json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "motusRecvID":383,
+            "recvProjectID":1,
+            "receiverID":"SG-5113BBBK0173",
+            "receiverType":"SENSORGNOME",
+            "recvDeployID":681,
+            "deploymentStatus":"terminated",
+            "deploymentName":"Crysler Park Marina",
+            "siteName":"Crysler Park Marina",
+            "dtStart":"2014-07-31 00:00:00 +00:00",
+            "dtEnd":"2016-11-19 00:00:00 +00:00",
+            "tsStart":1.4067648E9,
+            "tsEnd":1.4795136E9,
+            "latitude":44.93670000,
+            "longitude":-75.08670000,
+            "elevation":null,
+            "isMobile":false,
+            "macAddress":"0",
+            "locationPrecision":"Exact"
+        }
+    ]
+}
+```
 
 ### 2.4 List Receiver Antennas ###
 
