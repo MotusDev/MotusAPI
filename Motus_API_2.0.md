@@ -93,8 +93,49 @@ e.g.
 ### 1.2 List projects with descriptions ###
 
     /api/projects/descriptions
+(alias: /api/project/descriptions)
 
-Additional Parameters: none
+Additional Parameters:
+ - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
+ - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
+ - **login**: string, optional
+ - **pword**: string, optional
+
+**Returns:**
+
+ JSON-formatted object with these fields:
+
+  - **version** string; version number, e.g. "2.0"
+  - **data** data; array of objects with these fields:
+    - **projectID**; integer; motus project ID
+    - **projectName**; string; descriptive name of project
+    - **projectCode**; string; short project code, e.g. for plots
+    - **descriptionShort**; string; short summary of the project (a few sentences)
+    - **descriptionLong**; string; long summary of the project (a few paragraphs)
+
+e.g.
+
+``` json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "projectID":1,
+            "projectName":"Motus Ontario Array",
+            "projectCode":"Motus",
+            "descriptionShort":"Array of 70+ towers maintained by Bird Studies Canada in support of all projects.",
+            "descriptionLong":"Array of 70+ towers maintained by Bird Studies Canada in support of all projects."
+        },
+        {
+            "projectID":2,
+            "projectName":"Motus Atlantic Array",
+            "projectCode":"MotusATL",
+            "descriptionShort":"Array of 50+ towers maintained by Bird Studies Canada in support of all projects.",
+            "descriptionLong":"Array of 50+ towers maintained by Bird Studies Canada in support of all projects."
+        }
+    ]
+}
+```
 
 ## 2. Querying Receivers ##
 
