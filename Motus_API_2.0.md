@@ -455,15 +455,81 @@ Example:
 
 ### 3.1 List Tags ###
 
-    /api/tags/
+    /api/tags
+(aliaes: /api/tags/list, /api/tag, /api/tag/list)
 
-(alias: /api/tags/list)
+**Parameters:**
 
-Additional parameters:
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **login** | Optional | String | Some tag information is only visible to authenticated users. |
+| **pword** | Optional | String |  |
+| **projectID** | Optional | Integer | Only show tags from this project (and authorized users will get additional fields hidden from third-parties). |
+| **year** | Optional | Integer | Only show tags deployed during the given year. |
+| **mfgID** | Optional | String | Only show tags with the given manufacturer's ID (serial number). |
 
- - **projectID**: filter by project ID
- - **year**: filter by year deployment began
- - **mfgID**: filter by manufacturers id
+**Returns:**
+
+ - **tagID**: integer
+ - **tagProjectID**: integer
+ - **mfgID**: string
+ - **dateBin**: string
+ - **dtRegistered**: string
+ - **type**: string
+ - **codeset**: string
+ - **manufacturer**: string
+ - **model**: string
+ - **lifespan**: integer
+ - **nomFreq**: double
+ - **offsetFreq**: double
+ - **period**: double
+ - **periodSD**: double
+ - **pulseLen**: double
+
+Authorized users also get:
+
+ - **param1**: double
+ - **param2**: double
+ - **param3**: double
+ - **param4**: double
+ - **param5**: double
+ - **param6**: double
+ - **param7**: double
+ - **param8**: double
+ - **paramType**: integer
+ - **dtStart**: string
+ - **deploymentStatus**: string
+ - **motusScientificName**: string
+ - **RecentTagDeployID**: integer
+
+Example:
+
+```json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "tagID":18611,
+            "tagProjectID":36,
+            "mfgID":"10",
+            "dateBin":"2016-2",
+            "dtRegistered":"2016-04-05 23:56:39.017",
+            "type":"ID",
+            "codeset":"Lotek4",
+            "manufacturer":"Lotek",
+            "model":"NTQB-1",
+            "lifespan":null,
+            "nomFreq":166.3,
+            "offsetFreq":0.6796,
+            "period":39.6896,
+            "periodSD":1.0049E-14,
+            "pulseLen":2.5
+        }
+    ]
+}
+```
 
 ### 3.2 Search Tag Deployments ###
 
