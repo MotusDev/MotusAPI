@@ -257,6 +257,55 @@ This version includes JSON nested structures for individual antennas.
       - **heightMeters**: double, height of antenna mast above elevation quoted above
       - **cableLengthMeters** double; length of coax cable between antenna and radio
 
+Example:
+
+``` json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "id":427,
+            "serno":"SG-5113BBBK3139",
+            "receiverType":"SENSORGNOME",
+            "deviceID":337,
+            "macAddress":"0",
+            "status":"terminated",
+            "deployID":629,
+            "name":"Werden",
+            "fixtureType":"Tower",
+            "latitude":42.75463,
+            "longitude":-80.27077,
+            "isMobile":false,
+            "tsStart":1.396656E9,
+            "tsEnd":1.407456E9,
+            "antennas":[
+                {
+                    "port":1,
+                    "antennaType":"yagi-9-laird",
+                    "bearing":0.0,
+                    "heightMeters":6.0,
+                    "cableLengthMeters":7.62
+                },
+                {
+                    "port":2,
+                    "antennaType":"yagi-9-laird",
+                    "bearing":240.0,
+                    "heightMeters":5.6,
+                    "cableLengthMeters":7.62
+                },
+                {
+                    "port":3,
+                    "antennaType":"yagi-9-laird",
+                    "bearing":120.0,
+                    "heightMeters":5.2,
+                    "cableLengthMeters":7.62
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 2.3 List Receiver Deployments (flat version: json or csv) ###
 
     /api/receiver/deployments
