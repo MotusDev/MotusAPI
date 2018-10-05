@@ -49,10 +49,13 @@ unauthenticated requests will not return private information.
 (aliases: /api/project, /api/projects/list, /api/project/list)
 
 **Parameters:**
- - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
- - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
- - **login**: string, optional
- - **pword**: string, optional
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **showAll** | Default | Boolean | Default is 'false'. When false *and* the user is authenticated, shows full information on projects the user is authorized for, otherwise shows limited information on all projects. |
+| **login** | Optional | String |  |
+| **pword** | Optional | String |  |
 
  **Returns:**
 
@@ -96,10 +99,13 @@ e.g.
 (alias: /api/project/descriptions)
 
 **Parameters**:
- - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
- - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
- - **login**: string, optional
- - **pword**: string, optional
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **showAll** | Default | Boolean | Default is 'false'. When false *and* the user is authenticated, shows full information on projects the user is authorized for, otherwise shows limited information on all projects. |
+| **login** | Optional | String |  |
+| **pword** | Optional | String |  |
 
 **Returns:**
 
@@ -145,12 +151,15 @@ e.g.
 (aliases: /api/receivers/list, /api/recv, /api/recv/list, /api/receiver, /api/receiver/list)
 
 **Parameters:**
- - **date**: string, required, "YYYYMMDDhhmmss" UTC
- - **fmt**: string, defaults to "json", accepts "jsonp" or "csv"
- - **login**: string, optional, some receivers are only visible to authenticated users
- - **pword**: string, optional
- - **projectID**: integer, optional, only return receivers from the given project (and users authorized with the project may be able to see more than is visible to third parties)
- - **status**: integer, optional, only return receivers whose most recent deployments have the same status code (0|1|2)
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **login** | Optional | String | Some receivers are only visible to authenticated users. |
+| **pword** | Optional | String |  |
+| **projectID** | Optional | Integer | Only return receivers from the given project (and users authorized with the project may be able to see more than is visible to third parties). |
+| **status** | Optional | Integer | Only return receivers whose most recent deployments have the given status code (0, 1, 2). |
 
 **Returns:**
 
