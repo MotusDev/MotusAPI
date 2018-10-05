@@ -46,22 +46,25 @@ unauthenticated requests will not return private information.
 ### 1.1 List projects with basic information ###
 
     /api/projects
+(aliases: /api/project, /api/projects/list, /api/project/list)
 
-Additional Parameters: none
+Additional Parameters:
+ - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
+ - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
+ - **login**: string, optional
+ - **pword**: string, optional
 
- **Return**
+ **Returns:**
 
  JSON-formatted object with these fields:
 
-  - **version** string; version number, e.g. "2.0"
-  - **data** data; array of objects with these fields:
-    - **id**; integer; motus project ID
-    - **name**; string; descriptive name of project
-    - **code**; string; short project code, e.g. for plots
-    - **tagPermissions**; integer, 0..3; permission level for this user's access to tags from project
-    - **sensorPermissions**; integer, 0..3; permission level for this user's access to sensors from project
-
-    TODO: what do the permission levels represent?
+  - **version**: string; version number, e.g. "2.0"
+  - **data**: array of objects with these fields:
+    - **id**: integer; motus project ID
+    - **name**: string; descriptive name of project
+    - **code**: string; short project code, e.g. for plots
+    - **tagPermissions**: integer, 0..3; permission level for tag registration (low # means restricted, high # means permissive)
+    - **sensorPermissions**: integer, 0..3; permission level for receiver registration (low # means restricted, high # means permissive)
 
 e.g.
 
