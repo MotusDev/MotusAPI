@@ -16,6 +16,31 @@ Common Parameters:
 Authentication is normally not required (exceptions below), but
 unauthenticated requests will not return private information.
 
+| Table of Contents  |
+| ------------------ |
+| [1. Querying Projects](#1-querying-projects) |
+| [1.1 List projects with basic information](#11-list-projects-with-basic-information) |
+| [1.2 List projects with descriptions](#12-list-projects-with-descriptions) |
+| [2. Querying Receivers](#2-querying-receivers) |
+| [2.1 List receivers](#21-list-receivers) |
+| [2.2 List Receiver Deployments (nested version)](#22-list-receiver-deployments-nested-version) |
+| [2.3 List Receiver Deployments (flat version: json or csv)](#23-list-receiver-deployments-flat-version-json-or-csv) |
+| [2.4 List Receiver Antennas](#24-list-receiver-antennas) |
+| [3. Querying Tags](#3-querying-tags) |
+| [3.1 List Tags](#31-list-tags) |
+| [3.2 Search Tag Deployments](#32-search-tag-deployments) |
+| [4. Miscellaneous Querying](#4-miscellaneous-querying) |
+| [4.1 Validating a user](#41-validating-a-user) |
+| [4.2 List Species](#42-list-species) |
+| [4.3 List receiver status](#43-list-receiver-status) |
+| [5. Registering Tags, Receivers and Projects](#5-registering-tags-receivers-and-projects) |
+| [5.1 Register a tag](#51-register-a-tag) |
+| [5.2 Register a receiver (sensor)](#52-register-a-receiver-sensor) |
+| [5.3 Register a project](#53-register-a-project) |
+| [5.4 Deploy a tag](#54-deploy-a-tag-untested) |
+| [5.5 Undeploy a tag](#55-undeploy-a-tag-untested) |
+| [Changelog](#changelog) |
+
 ## 1. Querying Projects ##
 
 ### 1.1 List projects with basic information ###
