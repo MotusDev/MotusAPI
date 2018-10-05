@@ -210,40 +210,52 @@ e.g.
 
 ### 2.2 List Receiver Deployments (nested version) ###
 
-This version includes JSON nested structures for individual antennas (csv is
-not supported)
-
     /api/receiver/sensordeployments
+(aliases: /api/recv/sensordeployments, /api/receiver/sensordeployments)
 
-Additional parameters:
+This version includes JSON nested structures for individual antennas.
 
- - **projectID**: filter by a single project ID
- - **year**: filter by year deployment started
- - **serialNo**: filter by receiverID
- - **status**: filter by deployment status (0|1|2)
+**Parameters:**
 
-Returned fields:
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **login** | Optional | String | Some receiver information is only visible to authenticated users. |
+| **pword** | Optional | String |  |
+| **projectID** | Optional | Integer | Only return receiver information from the given project (and users authorized with the project may be able to see more than is visible to third parties). |
+| **year** | Optional | Integer | Only return deployments which ran during at least part of the given year. |
+| **sensorID** | Optional | Integer | Only return information about the receiver with the given Motus receiver ID. |
+| **serialNo** | Optional | String | Only return information about the receiver with the given serial number. |
+| **macAddress** | Optional | String | Only return information about the receiver with the given MAC address. |
 
- - id: integer; unknown motus ID #
- - serno: string; receiver serial number; e.g. Lotek-123, SG-1234BBBK4321
- - receiverType: string; SENSORGNOME, LOTEKSRX600, LOTEKSRX800, ...
- - deviceID: integer; motus ID # for this device
- - macAddress: string; not used
- - status: string; "active", "terminated", ...?
- - deployID: integer; ID for this deployment
- - name: string; (short) name for this deployment, e.g. for labelling graphs
- - fixtureType; string
- - latitude; double; decimal degrees N
- - longitude; double; decimal degrees E
- - elevation; double; metres ASL
- - isMobile; boolean
- - tsStart; double; deployment start timestamp, in seconds since 1 Jan 1970 GMT
- - antennas; list with one row per antenna and these fields:
-    - port; integer
-    - antennaType; string
-    - bearing; double; degrees clockwise from local magnetic north
-    - heightMeters; double; height of antenna mast above elevation quoted above
-    - cableLengthMeters; double; length of coax cable between antenna and radio
+**Returns:**
+
+ JSON-formatted object with these fields:
+
+  - **version**: string, version number, e.g. "2.0"
+  - **data**: array of objects with these fields:
+    - **id**: integer, Motus receiver ID
+    - **serno**: string, receiver serial number, e.g. Lotek-123, SG-1234BBBK4321
+    - **receiverType**: string, e.g. SENSORGNOME, LOTEKSRX600, LOTEKSRX800, etc.
+    - **deviceID**: integer, Motus ID # for this device
+    - **macAddress**: string, not used
+    - **status**: string, "active", "terminated", or "pending"
+    - **deployID**: integer, Motus ID for this deployment
+    - **name**: string, (short) name for this deployment, e.g. for labelling graphs
+    - **fixtureType**: string
+    - **latitude**: double, decimal degrees N
+    - **longitude**: double, decimal degrees E
+    - **elevation**: double, metres ASL
+    - **isMobile**: boolean
+    - **tsStart**: double, deployment start timestamp, in seconds since 1st Jan. 1970 UTC
+    - **tsEnd**: double, deployment finish timestamp, in seconds since 1st Jan. 1970 UTC
+    - **antennas**: array of objects with these fields:
+      - **port**: integer
+      - **antennaType**: string
+      - **bearing**: double, degrees clockwise from local magnetic north
+      - **heightMeters**: double, height of antenna mast above elevation quoted above
+      - **cableLengthMeters** double; length of coax cable between antenna and radio
 
 ### 2.3 List Receiver Deployments (flat version: json or csv) ###
 
