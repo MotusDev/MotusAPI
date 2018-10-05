@@ -534,46 +534,123 @@ Example:
 ### 3.2 Search Tag Deployments ###
 
     /api/tags/search
+(alias: /api/tag/search)
 
-Additional parameters:
+**Parameters:**
 
- - **projectID**: filter on project id
- - **status**: filter on deployment status (0|1|2)
- - **mfgID**: filter on manufacturer id
- - **searchMode**: set deployment period search mode (`startsBetween`|`overlap`)
- - **tsStart**: unix timestamp, start of deployment
- - **tsEnd**: unix timestamp, end of deployment
- - **tsLastModified**: unix timestamp, threshold for change of metadata; if specified, the reply
-   only includes records for which metadata were changed at or after this time.  This is
-   intended to allow on-demand update of tag metadata records by the data processing server.
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String | User must be authorized to register tags and receivers through the API. |
+| **pword** | Required | String |  |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **searchMode** | Default | String | Default is "startsBetween". Also accepts "overlap" or "overlaps". |
+| **defaultLifespan** | Default | Long | Default is 90 (days). Only used with "searchMode":"overlap". |
+| **lifespanBuffer** | Default | Double | Default is 1.5. Factor by which to multiply estimated lifespan when "searchMode" is "overlap". |
+| **projectID** | Optional | Integer | Only return tag deployments from the given project. |
+| **status** | Optional | Integer | Only return tag deployments with the given status code (0, 1, 2). |
+| **mfgID** | Optional | String | Only return tag deployments with the given manufacturer's ID (serial number). |
+| **tsStart** | Optional | Long | When "searchMode" is "startsBetween", only returns deployments which start/end at or after the given time(s) (in seconds since 1970). |
+| **tsEnd** | Optional | Long | When "searchMode" is "overlaps" and tsStart and tsEnd are both given, only returns deployments which overlap the specified time range. |
 
-Reply has these fields:
- - tagID
- - tagProjectID **this is called `projectID` in v 1.0**
- - mfgID
- - dateBin
- - lifespan
- - tagDeployID
- - deploymentStatus
- - dtStart
- - dtEnd
- - dtStartAnticipated
- - tsStart
- - tsEnd
- - tsStartAnticipated
- - deferSec
- - speciesID
- - speciesName
- - motusScientificName
- - motusEnglishName
- - motusFrenchName
- - bandNumber
- - markerNumber
- - markerType
- - latitude
- - longitude
- - elevation
- - comments
+**Returns:**
+
+ - **id**: integer, tag ID
+ - **projectID**: integer
+ - **mfgID**: string
+ - **dateBin**: string
+ - **type**: string
+ - **codeSet**: string
+ - **manufacturer**: string
+ - **model**: string
+ - **lifespan**: integer
+ - **nomFreq**: double
+ - **offsetFreq**: double
+ - **period**: double
+ - **periodSD**: double
+ - **pulseLen**: double
+ - **param1**: double
+ - **param2**: double
+ - **param3**: double
+ - **param4**: double
+ - **param5**: double
+ - **param6**: double
+ - **param7**: double
+ - **param8**: double
+ - **paramType**: integer
+ - **deployID**: integer
+ - **sdID**: integer
+ - **status**: integer
+ - **dtStart**: string
+ - **dtEnd**: string
+ - **tsStart**: double
+ - **tsEnd**: double
+ - **deferSec**: double
+ - **speciesID**: integer
+ - **speciesName**: string
+ - **motusScientificName**: string
+ - **motusEnglishName**: string
+ - **motusFrenchName**: string
+ - **bandNumber**: string
+ - **markerNumber**: string
+ - **markerType**: string
+ - **latitude**: double
+ - **longitude**: double
+ - **elevation**: double
+ - **comments**: string
+
+```json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "id":18611,
+            "projectID":36,
+            "mfgID":"10",
+            "dateBin":"2016-2",
+            "type":"ID",
+            "codeSet":"Lotek4",
+            "manufacturer":"Lotek",
+            "model":"NTQB-1",
+            "lifeSpan":null,
+            "nomFreq":166.3,
+            "offsetFreq":0.6796,
+            "period":39.6896,
+            "periodSD":1.0049E-14,
+            "pulseLen":2.5,
+            "param1":null,
+            "param2":null,
+            "param3":null,
+            "param4":null,
+            "param5":null,
+            "param6":null,
+            "param7":null,
+            "param8":null,
+            "paramType":1,
+            "deployID":9263,
+            "sdID":null,
+            "status":2,
+            "dtStart":"2016-09-08 12:00:00 +00:00",
+            "dtEnd":null,
+            "tsStart":1.473336E9,
+            "tsEnd":null,
+            "deferSec":null,
+            "speciesID":14280,
+            "speciesName":"Poecile atricapillus",
+            "motusScientificName":"Poecile atricapillus",
+            "motusEnglishName":"Black-capped Chickadee",
+            "motusFrenchName":"Mésange à tête noire",
+            "bandNumber":null,
+            "markerType":"metal band",
+            "latitude":45.30621000,
+            "longitude":-75.81655300,
+            "elevation":null,
+            "comments":null,
+            "dateLastModified":"2017-08-14 17:28:24.133"
+        }
+    ]
+}
+```
 
 ## 4. Miscellaneous Querying ##
 
