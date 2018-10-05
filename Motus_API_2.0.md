@@ -48,7 +48,7 @@ unauthenticated requests will not return private information.
     /api/projects
 (aliases: /api/project, /api/projects/list, /api/project/list)
 
-Additional Parameters:
+**Parameters:**
  - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
  - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
  - **login**: string, optional
@@ -95,7 +95,7 @@ e.g.
     /api/projects/descriptions
 (alias: /api/project/descriptions)
 
-Additional Parameters:
+**Parameters**:
  - **fmt**: string, defaults to "json", accepts "jsonp" and "csv"
  - **showAll**: boolean, defaults to false; when false and the user is authenticated shows full information on projects the user is authorized for, otherwise shows third-party-visible information on all projects
  - **login**: string, optional
@@ -142,12 +142,62 @@ e.g.
 ### 2.1 List receivers ###
 
     /api/receivers
+(aliases: /api/receivers/list, /api/recv, /api/recv/list, /api/receiver, /api/receiver/list)
 
-(alias: /api/receivers/list)
+**Parameters:**
+ - **date**: string, required, "YYYYMMDDhhmmss" UTC
+ - **fmt**: string, defaults to "json", accepts "jsonp" or "csv"
+ - **login**: string, optional, some receivers are only visible to authenticated users
+ - **pword**: string, optional
+ - **projectID**: integer, optional, only return receivers from the given project (and users authorized with the project may be able to see more than is visible to third parties)
+ - **status**: integer, optional, only return receivers whose most recent deployments have the same status code (0|1|2)
 
-Additional Parameters:
+**Returns:**
 
- - **status**: filter on basis of deployment status (0|1|2)
+ JSON-formatted object with these fields:
+
+  - **version**: string, version number, e.g. "2.0"
+  - **data**: array of objects with these fields:
+    - **receiverID**: string, receiver serial number
+    - **motusRecvID**: integer
+    - **deviceID**: integer
+    - **macAddress**: string (currently always "0")
+    - **receiverType**: string
+    - **dtStart**: string, most recent deployment start date/time
+    - **deploymentStatus**: string
+    - **deploymentName**: string
+
+e.g.
+
+``` json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "receiverID":"SG-5113BBBK0173",
+            "motusRecvID":383,
+            "recvProjectID":1,
+            "deviceID":251,
+            "macAddress":"0",
+            "receiverType":"SENSORGNOME",
+            "dtStart":"2016-11-19 00:00:00 +00:00",
+            "deploymentStatus":"active",
+            "deploymentName":"Crysler Park Marina"
+        },
+        {
+            "receiverID":"SG-5113BBBK0324",
+            "motusRecvID":384,
+            "recvProjectID":1,
+            "deviceID":252,
+            "macAddress":"0",
+            "receiverType":"SENSORGNOME",
+            "dtStart":"2016-11-22 00:00:00 +00:00",
+            "deploymentStatus":"terminated",
+            "deploymentName":"Binbrook_Conservation_Area"
+        }
+    ]
+}
+```
 
 ### 2.2 List Receiver Deployments (nested version) ###
 
