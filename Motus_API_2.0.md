@@ -375,13 +375,81 @@ Example:
 
 ### 2.4 List Receiver Antennas ###
 
-    /api/receiver/antennas
+    /api/receivers/antennas
+(aliases: /api/receiver/antennas, /api/recv/antennas)
 
-Additional parameters:
+**Parameters:**
 
- - **projectID**: filter by project ID
- - **serialNo**: filter by receiverID
- - **status**: filter by deployment status
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" or "csv". |
+| **login** | Optional | String | Some antenna information is only visible to authenticated users. |
+| **pword** | Optional | String |  |
+| **projectID** | Optional | Integer | Only return antenna information from the given project (and users authorized with the project may be able to see more than is visible to third parties). |
+| **serialNo** | Optional | String | Only return antenna information from receivers with the given serial number (receiver ID). |
+| **status** | Optional | Integer | Only return antenna information from receiver deployments with the given status code (0, 1, 2). |
+
+**Returns:**
+
+ - **motusRecvID**: integer
+ - **recvProjectID**: integer
+ - **receiverID**: integer
+ - **recvDeployID**: integer
+ - **port**: integer
+ - **antennaType**: string
+ - **bearing**: double
+ - **magneticBearing**: double
+ - **trueBearing**: double
+ - **tilt**: double
+ - **polBearing**: double
+ - **polTilt**: double
+ - **heightMeters**: double
+ - **filter**: double
+ - **cableLengthMeters**: double
+ - **cableType**: string
+ - **mountDistanceMeters**: double
+ - **mountBearing**: double
+ - **details**: string
+ - **elevationAngle**: double
+ - **polarization1**: double
+ - **polarization2**: double
+ - **deploymentStatus**: string
+
+Example:
+
+```json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "motusRecvID":383,
+            "recvProjectID":1,
+            "receiverID":"SG-5113BBBK0173",
+            "recvDeployID":681,
+            "port":1,
+            "antennaType":"yagi-9-laird",
+            "bearing":65.0,
+            "magneticBearing":65.0,
+            "trueBearing":51.313793,
+            "tilt":null,
+            "polBearing":null,
+            "polTilt":null,
+            "heightMeters":6.0,
+            "filter":null,
+            "cableLengthMeters":6.0,
+            "cableType":"RG58",
+            "mountDistanceMeters":null,
+            "mountBearing":null,
+            "details":null,
+            "elevationAngle":null,
+            "polarization1":null,
+            "polarization2":null,
+            "deploymentStatus":"terminated"
+        }
+    ]
+}
+```
 
 ## 3. Querying Tags ##
 
