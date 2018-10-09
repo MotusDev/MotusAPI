@@ -746,6 +746,39 @@ Example:
 ### 4.3 List receiver status ###
 
     /api/receiverstatus
+(alias: /api/lookup/receiverstatus)
+
+**Parameters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" and "csv". |
+
+**Returns:**
+ - **id**: integer, status code
+ - **name**: string, status
+
+Example:
+```json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "id":"0",
+            "name":"pending"
+        },
+        {
+            "id":"1",
+            "name":"terminated"
+        },
+        {
+            "id":"2",
+            "name":"active"
+        }
+    ]
+}
+```
 
 ## 5. Registering Tags, Receivers and Projects ##
 
