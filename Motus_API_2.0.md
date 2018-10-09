@@ -1,26 +1,15 @@
 # Motus Version 2.0 API #
 
-**Paul Morril**,
-5 September 2017
-
 Each request requires the single json={} parameter, with contents as
 described.
 
-Common Parameters:
-
- - **date**: REQUIRED on all requests; formatted as YYYYMMDDHHMMSS in GMT
- - **login**: optional unless authentication required on call
- - **pword**: optional unless authentication required on call
- - **fmt**: optional, defaults to `json`
-
 When returning JSON ("fmt":"json" or "fmt":"jsonp"), returns a JSON object with:
  - **version**: string, the API version number, e.g. "2.0"
+
+When returning multiple records, also returns:
  - **data**: an array of objects
 
 When returning CSV ("fmt":"csv"), returns a CSV with the same column names as the properties of the JSON objects in the **data** array, except *all columns with non-atomic values are dropped*. Note that errors are always returned as JSON, no matter what format is specified.
-
-Authentication is normally not required (exceptions below), but
-unauthenticated requests will not return private information.
 
 | Table of Contents  |
 | ------------------ |
@@ -966,8 +955,10 @@ Example:
 
 ## Changelog ##
 
+This is the changelog for the API (i.e. when entrypoints change), not the changelog for this documentation.
+
 2018-09-14 add `tsLastModified` parameter to `api/tags/search`
 
 2018-08-24 correct parameter name and possible values for `/api/tags/search`
 
-2018-02-06 document `/api/receiver/sensordeployments`, which no longer returns projectID.
+2018-02-06 `/api/receiver/sensordeployments` no longer returns projectID.
