@@ -43,7 +43,7 @@ unauthenticated requests will not return private information.
 | [5.1 Register a tag](#51-register-a-tag) |
 | [5.2 Register a receiver (sensor)](#52-register-a-receiver-sensor) |
 | [5.3 Register a project](#53-register-a-project) |
-| [5.4 Deploy a tag](#54-deploy-a-tag-untested) |
+| [5.4 Deploy a tag](#54-deploy-a-tag) |
 | [5.5 Undeploy a tag](#55-undeploy-a-tag-untested) |
 | [Changelog](#changelog) |
 
@@ -893,35 +893,48 @@ Example:
 }
 ```
 
-### 5.4 Deploy a tag (untested) ###
+### 5.4 Deploy a tag ###
 
     /api/tag/deploy
+(alias: /api/tags/deploy)
 
-**Name** | **Required** | **Default value** | **Description**
----|---|---|---
-fmt | No | false | Supported output formats: json, jsonp
-tagID | Yes | n/a | Unique numeric ID assigned to the tag, provided at the time of tag registration.
-status | Yes | pending | Status from one of the possible following values: **pending, deploy, terminate**. “pending” indicates that the deployment record isn’t ready to be finalized for deployment yet. “deploy” indicates that the deployment can be activated. “terminate” will attempt to finalize a deployment by providing an end date. Note that deployments can only be activated or terminated if all required information has been provided. Attempts to deploy or terminate an incomplete deployment will return an error. At the moment, several of the parameters can no longer be modified once a deployment is activated, and the status cannot be changed back to an earlier status (permitted sequence is pending -&gt; deploy -&gt; terminate, but levels can be omitted).
-tsStart | Yes | n/a | Timestamp for start of deployment (seconds since '1970-01-01T00:00:00'). If the tag has a deferred time lag (deferTime), this is the time at which the bird is released, in such a way that the time when the tag is expected to be active is given by tsStart + deferTime.
-tsEnd | No\* | n/a | Timestamp for end of deployment (seconds since '1970-01-01T00:00:00'). Required for status=terminate.
-deferTime | No | 0 | Defer time (in seconds from tsStart). Some tags are capable of deferred activation - they don't start transmitting until some number of seconds (can be very large) after activation.
-speciesID | No | n/a | Numeric ID (integer) of the species on which the tag is being deployed. You should refer to the listspecies API entry point to query species ID based on codes or names.
-speciesName | No | n/a | Name (String, preferably scientific name, but can also be common name or species code) of the species on which the tag is being deployed. There is no validation on this field, including whether it matches the speciesID value. This is strictly used as a guide for users looking at data records.
-markerType | No | n/a | Type of marker (e.g. “metal band”, “color band”)
-markerNumber | No | n/a | Marker number or descriptor (e.g. “1234-56789” or “L:Red/Blue,R:Metal 1234-56789”)
-lat | No | n/a | Latitude (decimal degrees) of the deployment site. E.g. 45.123.
-lon | No | n/a | Longitude (decimal degrees) of the deployment site. E.g. -60.325.
-elev | No | n/a | Elevation above sea level (meters) of the deployment site. E.g. 23.
-ts | Yes | n/a | Timestamp (seconds since '1970-01-01T00:00:00'). Time at which deployment information was generated.
-comments | No | n/a | User comments related to the deployment, for their own use.
-properties | No | n/a | JSON object containing pairs of name/value pairs for any custom properties for the tag. E.g. \[{"AgeID":"HY", "blood":"N", "Country":"Canada", "Include\_in\_analysis":"Y", "LocationID":"Niapiskau", "Province":"Quebec","SexID":"U"}\]. Values are currently limited to 128 chars for names and unlimited for values. Each property name must be unique.
+**Parameters:**
 
-### Output (HTTP response codes: 201) ###
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **projectID** | Required | Integer | Motus project ID of the tag. |
+| **login** | Required | String | The user must be authorized to edit tags of the given project, and to register tags and receivers through the API. |
+| **pword** | Required | String | |
+| **tagID** | Required | Integer | Unique numeric ID assigned to the tag, provided at the time of tag registration. |
+| **tsStart** | Required | Double | Timestamp for start of deployment (seconds since '1970-01-01T00:00:00'). If the tag has a deferred time lag (deferTime), this is the time at which the bird is released, in such a way that the time when the tag is expected to be active is given by tsStart + deferTime. |
+| **ts** | Required | Double | Timestamp (seconds since '1970-01-01T00:00:00'). Time at which deployment information was generated. |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
+| **speciesID** | Optional | Integer | ID of the species on which the tag is being deployed. You should refer to the listspecies API entry point to query species ID based on codes or names. |
+| **speciesName** | Optional | String | Name (preferably scientific name, but can also be common name or species code) of the species on which the tag is being deployed. There is no validation on this field, including whether it matches the speciesID value. This is strictly used as a guide for users looking at data records. |
+| **markerType** | Optional | String | Type of marker (e.g. “metal band”, “color band”). |
+| **markerNumber** | Optional | String | Marker number or descriptor (e.g. “1234-56789” or “L:Red/Blue,R:Metal 1234-56789”). |
+| **lifeSpan** | Optional | Integer | Expected lifespan of the tag, in days after deployment. |
+| **deferTime** | Optional | Double | Defer time (in seconds from tsStart). Some tags are capable of deferred activation - they don't start transmitting until some number of seconds (can be very large) after activation. |
+| **comments** | Optional | String | User comments related to the deployment, for their own use. |
+| **tagProps** | Optional | String | JSON object containing pairs of name/value pairs for any custom properties for the tag. E.g. \[{"AgeID":"HY", "blood":"N", "Country":"Canada", "Include\_in\_analysis":"Y", "LocationID":"Niapiskau", "Province":"Quebec","SexID":"U"}\]. Values are currently limited to 128 chars for names and unlimited for values. Each property name must be unique. |
+| **lat** | Optional | Double | Latitude (decimal degrees) of the deployment site. E.g. 45.123. |
+| **lon** | Optional | Double | Longitude (decimal degrees) of the deployment site. E.g. -60.325. |
+| **elev** | Optional | Double | Elevation above sea level (meters) of the deployment site. E.g. 23. |
+| **tsEnd** | Optional | Double | Timestamp for end of deployment (seconds since '1970-01-01T00:00:00'). Required for status=terminate. |
 
-  **Name** | **Description** | **Example values**
-  ---|---|---
-  importID  |     Numeric import ID assigned to the imported data record. Only deployments submitted with valid credentials immediately receive a deployment ID. Others will have a value of “pending” until they are approved within the submitted project by a principal investigator. |  1234
-  deploymentID |  Deployment ID assigned to the new deployment. Only deployments submitted with valid credentials immediately receive a deployment ID. Others will have a value of “pending” until they are approved within the submitted project by a principal investigator.           |  2605, pending
+**Returns:**
+ - **importID**: integer
+ - **responseCode**: string
+
+Example:
+```json
+{
+    "version":"2.0",
+    "importID":1,
+    "responseCode":"success-deploy"
+}
+```
 
 ### 5.5 Undeploy a tag (untested) ###
 
