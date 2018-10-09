@@ -204,10 +204,10 @@ Example:
 
 ### 2.2 List Receiver Deployments (nested version) ###
 
+This version includes JSON nested structures for individual antennas.
+
     /api/receivers/sensordeployments
 (aliases: /api/recv/sensordeployments, /api/receiver/sensordeployments)
-
-This version includes JSON nested structures for individual antennas.
 
 **Parameters:**
 
@@ -599,6 +599,8 @@ Example:
  - **elevation**: double
  - **comments**: string
 
+Example:
+
 ```json
 {
     "version":"2.0",
@@ -660,11 +662,37 @@ Check that credentials are valid. If so, return basic user information
 and a list of projects that the user can access.
 
     /api/user/validate
+(alias: /api/users/validate)
 
-Additional parameters:
+**Parameters:**
 
- - **login**: users login name
- - **pword**: users password
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String |  |
+| **pword** | Required | String |  |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
+
+**Returns:**
+ - **userID**: integer
+ - **emailAddress**: string
+ - **userType**: string
+ - **projects**: object, a map from project ID to project name containing all the projects the user is authorized to read
+
+Example:
+
+```json
+{
+    "version":"2.0",
+    "userID":161,
+    "emailAddress":"example@example.com",
+    "projects":{
+        "1":"Motus Ontario Array",
+        "2":"Motus Atlantic Array"
+    },
+    "userType":"collaborator"
+}
+```
 
 ### 4.2 List Species ###
 
