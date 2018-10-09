@@ -44,7 +44,7 @@ unauthenticated requests will not return private information.
 | [5.2 Register a receiver (sensor)](#52-register-a-receiver-sensor) |
 | [5.3 Register a project](#53-register-a-project) |
 | [5.4 Deploy a tag](#54-deploy-a-tag) |
-| [5.5 Undeploy a tag](#55-undeploy-a-tag-untested) |
+| [5.5 Undeploy a tag](#55-undeploy-a-tag) |
 | [Changelog](#changelog) |
 
 ## 1. Querying Projects ##
@@ -936,11 +936,33 @@ Example:
 }
 ```
 
-### 5.5 Undeploy a tag (untested) ###
+### 5.5 Undeploy a tag ###
 
     /api/tag/undeploy
+(alias: /api/tags/undeploy)
 
-See api version 1.0 documentation for parameters (deletetagdeployment)
+**Parameters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **projectID** | Required | Integer | Motus project ID of the tag. |
+| **login** | Required | String | The user must be authorized to edit tags of the given project, and to register tags and receivers through the API. |
+| **pword** | Required | String | |
+| **deployID** | Required | Integer | Motus ID of the deployment to delete. |
+| **tagID** | Required | Integer | Unique numeric ID assigned to the tag, provided at the time of tag registration. |
+| **fmt** | Default | String | Default is "json". |
+
+**Returns:**
+ - **deployID**: integer
+
+Example:
+```json
+{
+    "version":"2.0",
+    "deployID":31910,
+}
+```
 
 ## Changelog ##
 
