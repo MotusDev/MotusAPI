@@ -833,18 +833,38 @@ Example:
 ### 5.2 Register a receiver (sensor) ###
 
     /api/receiver/register
+(aliases: /api/receivers/register, /api/recv/register)
 
-Additional parameters:
+**Parameters:**
 
- - **secretkey**: sensor hash key
- - **receiverType**: eg: LOTEKSRX800
- - **serno**: the receiver id (eg: `SG-1234BBBK678`, `Lotek-153`)
- - **userID**: the motus id of the user whose sensor is being processed
- - **projectID**: the project id to which this sensor will be deployed
- - ~~**hash**: Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret)~~
-     no longer used as of 2017 Dec 15 (beta server)
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String | User must be an administrator. |
+| **pword** | Required | String | |
+| **secretKey** | Required | String | Receiver hash key. |
+| **serno** | Required | String | Receiver ID, receiver serial number (e.g. `SG-1234BBBK5678`, `Lotek-123`). |
+| **hash** | Required | String | Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret) |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
+| **projectID** | Optional | Integer | The project to which this receiver will be assigned. |
+| **macAddress** | Optional | String | |
+| **receiverType** | Optional | String | E.g. `LOTEKSRX800`. |
+| **userID** | Optional | Integer | The Motus ID of the user whose receiver is being registered. |
 
-Note that userID and projectID are not mandatory, but are highly encouraged!
+Note that although userID and projectID are not mandatory, they are highly encouraged!
+
+**Returns:**
+ - **deviceID**: integer
+ - **result**: string, one of "registered", "updated", "serial-exists"
+
+Example:
+```json
+{
+    "version":"2.0",
+    "deviceID":1000,
+    "result":"serial-exists"
+}
+```
 
 ### 5.3 Register a project ###
 
