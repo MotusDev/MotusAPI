@@ -869,12 +869,29 @@ Example:
 ### 5.3 Register a project ###
 
     /api/project/register
+(alias: /api/projects/register)
 
-Additional parameters:
+**Paramters:**
 
- - **projectName**: a name for the project
- - **projectCode**: a short code for the project (not available yet on live
-server)
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String | User must be PI or administrator. |
+| **pword** | Required | String | |
+| **projectName** | Required | String | Full name of the new project. |
+| **projectCode** | Required | String | Short code for the project (e.g. for labelling tags and graphs). |
+| **fmt** | Default | String | Default is "json". |
+
+**Returns:**
+ - **projectID**: integer, ID of the newly created project
+
+Example:
+```json
+{
+    "version":"2.0",
+    "projectID":218
+}
+```
 
 ### 5.4 Deploy a tag (untested) ###
 
