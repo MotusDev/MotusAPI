@@ -697,12 +697,51 @@ Example:
 ### 4.2 List Species ###
 
     /api/species
+(alias: /api/lookup/species)
 
-Additional parameters:
+**Parameters:**
 
- - **qstr**: a search string from common or scientific name.
- - **qgroup**: filter on a group (`bird`|`mammal`|..)
- - **qlang**: search common name for this language (`en` |  `fr` | `cd`)
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp" and "csv". |
+| **nrec** | Default | Integer | Default is 40000. Accepts int between 0 and 40000 inclusive. Maximum number of records to return. |
+| **qlang** | Default | String | Default is "EN", accepts "FR", "SC", "CD". Field to query: ENglish, FRench, SCientific, 4-letter species CoDe (latter not returned). |
+| **qstr** | Optional | String | Query string. |
+| **group** | Optional | String | Return only records from the given group. |
+
+**Returns:**
+ - **id**: long, species ID
+ - **scientific**: string
+ - **english**: string
+ - **french**: string
+ - **group**: string
+ - **sort**: integer
+
+Example:
+```json
+{
+    "version":"2.0",
+    "data":[
+        {
+            "scientific":"Calidris canutus",
+            "english":"Red Knot",
+            "id":4670,
+            "sort":3172,
+            "french":"Bécasseau maubèche",
+            "group":"BIRDS"
+        },
+        {
+            "scientific":"Myotis lucifugus",
+            "english":"Little Brown Bat",
+            "id":100430,
+            "sort":100430,
+            "french":"petite chauve-souris brune",
+            "group":"BATS"
+        }
+    ]
+}
+```
 
 ### 4.3 List receiver status ###
 
