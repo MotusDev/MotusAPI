@@ -29,11 +29,12 @@ When returning CSV ("fmt":"csv"), returns a CSV with the same column names as th
 | [4.2 List Species](#42-list-species) |
 | [4.3 List receiver status](#43-list-receiver-status) |
 | [5. Registering Tags, Receivers and Projects](#5-registering-tags-receivers-and-projects) |
-| [5.1 Register a tag](#51-register-a-tag) |
-| [5.2 Register a receiver (sensor)](#52-register-a-receiver-sensor) |
-| [5.3 Register a project](#53-register-a-project) |
-| [5.4 Deploy a tag](#54-deploy-a-tag) |
-| [5.5 Undeploy a tag](#55-undeploy-a-tag) |
+| [5.1 Register a project](#51-register-a-project) |
+| [5.2 Register a receiver](#52-register-a-receiver) |
+| [5.3 Deploy a receiver](#53-deploy-a-receiver) |
+| [5.4 Register a tag](#54-register-a-tag) |
+| [5.5 Deploy a tag](#55-deploy-a-tag) |
+| [5.6 Undeploy a tag](#56-undeploy-a-tag) |
 | [Changelog](#changelog) |
 
 ## 1. Querying Projects ##
@@ -771,7 +772,137 @@ Example:
 
 ## 5. Registering Tags, Receivers and Projects ##
 
-### 5.1 Register a tag ###
+### 5.1 Register a project ###
+
+    /api/project/register
+(alias: /api/projects/register)
+
+**Paramters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String | User must be PI or administrator. |
+| **pword** | Required | String | |
+| **projectName** | Required | String | Full name of the new project. |
+| **projectCode** | Required | String | Short code for the project (e.g. for labelling tags and graphs). |
+| **fmt** | Default | String | Default is "json". |
+
+**Returns:**
+ - **projectID**: integer, ID of the newly created project
+
+Example:
+```json
+{
+    "version":"2.0",
+    "projectID":218
+}
+```
+
+### 5.2 Register a receiver ###
+
+    /api/receiver/register
+(aliases: /api/receivers/register, /api/recv/register)
+
+**Parameters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **login** | Required | String | User must be an administrator. |
+| **pword** | Required | String | |
+| **secretKey** | Required | String | Receiver hash key. |
+| **serno** | Required | String | Receiver ID, receiver serial number (e.g. `SG-1234BBBK5678`, `Lotek-123`). |
+| **hash** | Required | String | Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret) |
+| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
+| **projectID** | Optional | Integer | The project to which this receiver will be assigned. |
+| **macAddress** | Optional | String | |
+| **receiverType** | Optional | String | E.g. `LOTEKSRX800`. |
+| **userID** | Optional | Integer | The Motus ID of the user whose receiver is being registered. |
+
+Note that although userID and projectID are not mandatory, they are highly encouraged!
+
+**Returns:**
+ - **deviceID**: integer
+ - **result**: string, one of "registered", "updated", "serial-exists"
+
+Example:
+```json
+{
+    "version":"2.0",
+    "deviceID":1000,
+    "result":"serial-exists"
+}
+```
+
+### 5.3 Deploy a receiver ###
+
+    /api/receiver/deploy
+(aliases: /api/receivers/deploy, /api/recv/deploy)
+
+**Parameters:**
+
+| Name | Parameter Type | Value Type | Description |
+| ---- | -------------- | ---------- | ----------- |
+| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
+| **projectID** | Required | Integer | |
+| **serno** | Required | String | receiver serial number |
+| **hash** | Required | String | |
+| **status** | Default | String | Default is "pending". Accepts "deploy", "test", "terminate".
+| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
+| **sensors** | Optional | Array of Objects | See below for details. |
+| **siteCode** | Optional | String | |
+| **siteDesc** | Optional | String | |
+| **siteNotes** | Optional | String | |
+| **landOwnerID** | Optional | Integer | |
+| **fixtureType** | Optional | String | |
+| **forceTerminate** | Optional | Boolean | |
+| **lat** | Optional | Double | |
+| **lon** | Optional | Double | |
+| **elev** | Optional | Double | |
+| **isMobile** | Optional | Boolean | |
+| **ts** | Optional | Long | |
+| **tsStart** | Optional | Long | |
+| **tsEnd** | Optional | Long | |
+
+Properties of the objects in the parameter **sensors**:
+ - **port**: integer
+ - **type**: string, accepts "radio" or "gps"
+ - **params**: object
+
+Properties of **params** when **type** == "radio":
+ - **radio**: string
+ - **antenna**: string
+ - **bearing**: double
+ - **tilt**: double
+ - **polBearing**: double
+ - **polTilt**: double
+ - **height**: double
+ - **filter**: string
+ - **cableLength**: double
+ - **cableType**: string
+ - **mountDistance**: double
+ - **mountBearing**: double
+ - **details**: string
+
+Properties of **params** when **type** == "gps":
+ - **model**: string
+ - **pps**: boolean
+
+**Returns:**
+ - **importID**: integer
+ - **responseCode**: string
+ - **sensorID**: integer
+ - **deployID**: integer
+ - **conflicts**: array of objects (dropped if empty)
+   - **sensorID**: integer
+   - **deploymentID**: integer
+   - **status**: integer
+   - **name**: string
+   - **tsStart**: long
+   - **tsEnd**: long
+
+### 5.4 Register a tag ###
 
     /api/tag/register
 (alias: /api/tags/register)
@@ -819,70 +950,7 @@ Example:
 }
 ```
 
-### 5.2 Register a receiver (sensor) ###
-
-    /api/receiver/register
-(aliases: /api/receivers/register, /api/recv/register)
-
-**Parameters:**
-
-| Name | Parameter Type | Value Type | Description |
-| ---- | -------------- | ---------- | ----------- |
-| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
-| **login** | Required | String | User must be an administrator. |
-| **pword** | Required | String | |
-| **secretKey** | Required | String | Receiver hash key. |
-| **serno** | Required | String | Receiver ID, receiver serial number (e.g. `SG-1234BBBK5678`, `Lotek-123`). |
-| **hash** | Required | String | Calculate the hex encoded sha1 hash of  (serno + underscore + date + underscore + sharedMasterSecret) |
-| **fmt** | Default | String | Default is "json". Accepts "jsonp". |
-| **projectID** | Optional | Integer | The project to which this receiver will be assigned. |
-| **macAddress** | Optional | String | |
-| **receiverType** | Optional | String | E.g. `LOTEKSRX800`. |
-| **userID** | Optional | Integer | The Motus ID of the user whose receiver is being registered. |
-
-Note that although userID and projectID are not mandatory, they are highly encouraged!
-
-**Returns:**
- - **deviceID**: integer
- - **result**: string, one of "registered", "updated", "serial-exists"
-
-Example:
-```json
-{
-    "version":"2.0",
-    "deviceID":1000,
-    "result":"serial-exists"
-}
-```
-
-### 5.3 Register a project ###
-
-    /api/project/register
-(alias: /api/projects/register)
-
-**Paramters:**
-
-| Name | Parameter Type | Value Type | Description |
-| ---- | -------------- | ---------- | ----------- |
-| **date** | Required | String | "YYYYMMDDhhmmss" UTC |
-| **login** | Required | String | User must be PI or administrator. |
-| **pword** | Required | String | |
-| **projectName** | Required | String | Full name of the new project. |
-| **projectCode** | Required | String | Short code for the project (e.g. for labelling tags and graphs). |
-| **fmt** | Default | String | Default is "json". |
-
-**Returns:**
- - **projectID**: integer, ID of the newly created project
-
-Example:
-```json
-{
-    "version":"2.0",
-    "projectID":218
-}
-```
-
-### 5.4 Deploy a tag ###
+### 5.5 Deploy a tag ###
 
     /api/tag/deploy
 (alias: /api/tags/deploy)
@@ -925,7 +993,7 @@ Example:
 }
 ```
 
-### 5.5 Undeploy a tag ###
+### 5.6 Undeploy a tag ###
 
     /api/tag/undeploy
 (alias: /api/tags/undeploy)
