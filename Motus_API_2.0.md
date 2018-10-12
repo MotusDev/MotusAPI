@@ -923,7 +923,6 @@ Properties of **params** when **type** == "gps":
 | **codeSet** | Optional | String | If a manufacturer has more than one code set from which a code can come, this must uniquely identify the one for this tag. (E.g. 'Lotek-3'.) |
 | **manufacturer** | Optional | String | Name of manufacturer (e.g. Lotek). |
 | **model** | Optional | String | Tag model name. |
-| **lifeSpan** | Optional | Integer | Expected lifespan in days. |
 | **offsetFreq** | Optional | Double | Offset frequency (kHz). |
 | **period** | Optional | Double | Repeat period (seconds). |
 | **periodSD** | Optional | Double | Standard deviation of repeat period (seconds). |
@@ -971,7 +970,6 @@ Example:
 | **speciesName** | Optional | String | Name (preferably scientific name, but can also be common name or species code) of the species on which the tag is being deployed. There is no validation on this field, including whether it matches the speciesID value. This is strictly used as a guide for users looking at data records. |
 | **markerType** | Optional | String | Type of marker (e.g. “metal band”, “color band”). |
 | **markerNumber** | Optional | String | Marker number or descriptor (e.g. “1234-56789” or “L:Red/Blue,R:Metal 1234-56789”). |
-| **lifeSpan** | Optional | Integer | Expected lifespan of the tag, in days after deployment. |
 | **deferTime** | Optional | Double | Defer time (in seconds from tsStart). Some tags are capable of deferred activation - they don't start transmitting until some number of seconds (can be very large) after activation. |
 | **comments** | Optional | String | User comments related to the deployment, for their own use. |
 | **tagProps** | Optional | String | JSON object containing pairs of name/value pairs for any custom properties for the tag. E.g. \[{"AgeID":"HY", "blood":"N", "Country":"Canada", "Include\_in\_analysis":"Y", "LocationID":"Niapiskau", "Province":"Quebec","SexID":"U"}\]. Values are currently limited to 128 chars for names and unlimited for values. Each property name must be unique. |
@@ -1025,7 +1023,9 @@ Example:
 
 This is the changelog for the API (i.e. when entrypoints change), not the changelog for this documentation.
 
-2018-09-14 add `tsLastModified` parameter to `api/tags/search`
+2018-10-12 remove `lifeSpan` parameter from `/api/tag/register` and `/api/tag/deploy`
+
+2018-09-14 add `tsLastModified` parameter to `/api/tags/search`
 
 2018-08-24 correct parameter name and possible values for `/api/tags/search`
 
